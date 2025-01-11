@@ -1,0 +1,7 @@
+node_modules
+.env
+env
+dist
+.prettierrc
+PRO
+PRO.TXT
