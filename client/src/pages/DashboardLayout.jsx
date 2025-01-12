@@ -4,6 +4,7 @@ import { SmallSidebar, BigSidebar, Navbar } from '../components';
 import { useState } from 'react';
 import { createContext } from 'react';
 import { useContext } from 'react';
+import { checkDefaultTheme } from '../App.jsx';
 
 // DashboardContext
 const DashboardContext = createContext();
@@ -13,14 +14,16 @@ const DashboardLayout = () => {
   // user temp
   const user = { name: 'john' };
   const [showSidebar, setShowSidebar] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const [isDarkTheme, setIsDarkTheme] = useState(() => checkDefaultTheme());
 
   const toggleSidebar = () => {
     setShowSidebar((show) => !show);
   };
 
   const toggleDarkTheme = () => {
-    alert('toggleDarkTheme');
+    setIsDarkTheme((c) => !c);
+    document.body.classList.toggle('dark-theme', isDarkTheme);
+    localStorage.setItem('darkTheme', isDarkTheme);
   };
 
   const logoutUser = async () => {
@@ -36,8 +39,6 @@ const DashboardLayout = () => {
         toggleSidebar,
         toggleDarkTheme,
         logoutUser,
-        setShowSidebar,
-        setIsDarkTheme,
       }}
     >
       <Wrapper>
@@ -61,9 +62,7 @@ const DashboardLayout = () => {
 const useDashboardContext = () => {
   const context = useContext(DashboardContext);
   if (context === undefined)
-    throw new Error(
-      'Can not use Dashboard Context outside the DashboardContext Provider',
-    );
+    throw new Error('Can not use Dashboard Context outside the DashboardContext Provider');
 
   return context;
 };
