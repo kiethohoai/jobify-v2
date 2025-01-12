@@ -2,6 +2,7 @@ import { useDashboardContext } from '../pages/DashboardLayout.jsx';
 import { FaAlignLeft } from 'react-icons/fa';
 import Wrapper from '../assets/wrappers/Navbar.js';
 import Logo from './Logo';
+import LogoutContainer from './LogoutContainer.jsx';
 
 const Navbar = () => {
   const { toggleSidebar } = useDashboardContext();
@@ -10,11 +11,7 @@ const Navbar = () => {
     <Wrapper>
       <div className="nav-center">
         {/* toggle sidebar */}
-        <button
-          className="toggle-btn"
-          type="button"
-          onClick={() => toggleSidebar()}
-        >
+        <button className="toggle-btn" type="button" onClick={() => toggleSidebar()}>
           <FaAlignLeft />
         </button>
 
@@ -25,7 +22,9 @@ const Navbar = () => {
         </div>
 
         {/* toggle logout user */}
-        <div className="btn-container">Logout</div>
+        <div className="btn-container">
+          <LogoutContainer />
+        </div>
       </div>
     </Wrapper>
   );
