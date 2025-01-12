@@ -1,9 +1,7 @@
 import { useDashboardContext } from '../pages/DashboardLayout.jsx';
 import { FaTimes } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/SmallSidebar.js';
 import Logo from './Logo.jsx';
-import links from '../utils/links.jsx';
 import NavLinks from './NavLinks.jsx';
 
 const SmallSidebar = () => {
