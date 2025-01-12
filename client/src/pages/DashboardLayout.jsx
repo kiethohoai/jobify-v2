@@ -16,15 +16,15 @@ const DashboardLayout = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const toggleSidebar = () => {
-    console.log('toggleSidebar');
+    alert('toggleSidebar');
   };
 
   const toggleDarkTheme = () => {
-    console.log('toggleDarkTheme');
+    alert('toggleDarkTheme');
   };
 
   const logoutUser = async () => {
-    console.log('logoutUser');
+    alert('logoutUser');
   };
 
   return (
@@ -36,6 +36,8 @@ const DashboardLayout = () => {
         toggleSidebar,
         toggleDarkTheme,
         logoutUser,
+        setShowSidebar,
+        setIsDarkTheme,
       }}
     >
       <Wrapper>
