@@ -1,4 +1,6 @@
+import { NotFoundError } from '../errors/customErrors.js';
 import Job from '../models/JobModel.js';
+import { StatusCodes } from 'http-status-codes';
 
 //TODO CREATE JOB
 export const createJob = async (req, res) => {
@@ -9,13 +11,13 @@ export const createJob = async (req, res) => {
   const job = await Job.create({ company, position });
 
   // result
-  res.status(201).json({ job });
+  res.status(StatusCodes.CREATED).json({ job });
 };
 
 // TODO GET ALL JOBS
 export const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({});
-  res.status(200).json({ jobs });
+  const jobs = await Job.find();
+  res.status(StatusCodes.OK).json({ jobs });
 };
 
 //TODO GET SINGLE JOB
@@ -27,11 +29,11 @@ export const getJob = async (req, res) => {
 
   // guard
   if (!job) {
-    return res.status(404).json({ msg: `no job found with id:${id}` });
+    throw new NotFoundError(`no job found with id:${id}`);
   }
 
   // result
-  res.status(200).json({ job });
+  res.status(StatusCodes.OK).json({ job });
 };
 
 //TODO UPDATE JOB (EDIT JOB)
@@ -46,11 +48,11 @@ export const updateJob = async (req, res) => {
 
   // guard
   if (!updateJob) {
-    return res.status(404).json({ msg: `no job found with id:${id}` });
+    throw new NotFoundError(`no job found with id:${id}`);
   }
 
   // result
-  res.status(200).json({ msg: 'job updated', job: updateJob });
+  res.status(StatusCodes.OK).json({ msg: 'job updated', job: updateJob });
 };
 
 //TODO DELETE JOB
@@ -63,9 +65,9 @@ export const deleteJob = async (req, res) => {
 
   // guard
   if (!removeJob) {
-    return res.status(404).json({ msg: `no job found with id:${id}` });
+    throw new NotFoundError(`no job found with id:${id}`);
   }
 
   // result
-  res.status(200).json({ msg: 'job deleted', job: removeJob });
+  res.status(StatusCodes.OK).json({ msg: 'job deleted', job: removeJob });
 };

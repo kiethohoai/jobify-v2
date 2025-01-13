@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import jobRoutes from './routes/jobRoutes.js';
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 
 //TODO APP
 const app = express();
@@ -24,10 +25,7 @@ app.use('*', (req, res) => {
 });
 
 // TODO ERROR MIDDLEWARE
-app.use((err, req, res, next) => {
-  console.log(`🚀err:`, err);
-  res.status(500).json({ msg: 'something went wrong' });
-});
+app.use(errorHandlerMiddleware);
 
 //TODO APP LISTENING
 try {
