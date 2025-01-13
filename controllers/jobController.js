@@ -21,6 +21,7 @@ export const createJob = async (req, res) => {
 
 // TODO GET ALL JOBS
 export const getAllJobs = async (req, res) => {
+  const jobs = await Job.find({});
   res.status(200).json({ jobs });
 };
 
@@ -29,7 +30,7 @@ export const getJob = async (req, res) => {
   const { id } = req.params;
 
   // find job with id
-  const job = jobs.find((job) => job.id === id);
+  const job = await Job.findById(id);
 
   // guard
   if (!job) {
