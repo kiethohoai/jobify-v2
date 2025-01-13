@@ -1,10 +1,23 @@
 import { nanoid } from 'nanoid';
+import Job from '../models/JobModel.js';
 
 //TODO DATA TEST
 let jobs = [
   { id: nanoid(), company: 'apple', position: 'front-end' },
   { id: nanoid(), company: 'google', position: 'back-end' },
 ];
+
+//TODO CREATE JOB
+export const createJob = async (req, res) => {
+  // data
+  const { company, position } = req.body;
+
+  // create
+  const job = await Job.create({ company, position });
+
+  // result
+  res.status(201).json({ job });
+};
 
 // TODO GET ALL JOBS
 export const getAllJobs = async (req, res) => {
@@ -25,30 +38,6 @@ export const getJob = async (req, res) => {
 
   // result
   res.status(200).json({ job });
-};
-
-//TODO CREATE JOB
-export const createJob = async (req, res) => {
-  // data
-  const { company, position } = req.body;
-
-  // guard
-  if (!company || !position) {
-    return res.status(400).json({ msg: 'Please provide company and position' });
-  }
-
-  // data #2
-  const newJob = {
-    id: nanoid(),
-    company,
-    position,
-  };
-
-  // create
-  jobs.push(newJob);
-
-  // result
-  res.status(201).json({ msg: 'job created', job: newJob });
 };
 
 //TODO UPDATE JOB (EDIT JOB)
