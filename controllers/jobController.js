@@ -1,11 +1,4 @@
-import { nanoid } from 'nanoid';
 import Job from '../models/JobModel.js';
-
-//TODO DATA TEST
-let jobs = [
-  { id: nanoid(), company: 'apple', position: 'front-end' },
-  { id: nanoid(), company: 'google', position: 'back-end' },
-];
 
 //TODO CREATE JOB
 export const createJob = async (req, res) => {
@@ -45,27 +38,19 @@ export const getJob = async (req, res) => {
 export const updateJob = async (req, res) => {
   // data
   const { id } = req.params;
-  const { company, position } = req.body;
-
-  // guard #1
-  if (!company || !position) {
-    return res.status(400).json({ msg: 'Please provide company and position' });
-  }
 
   // find job with id
-  const job = jobs.find((job) => job.id === id);
+  const updateJob = await Job.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
 
-  // guard #2
-  if (!job) {
+  // guard
+  if (!updateJob) {
     return res.status(404).json({ msg: `no job found with id:${id}` });
   }
 
-  // update
-  job.company = company;
-  job.position = position;
-
   // result
-  res.status(200).json({ msg: 'job updated', job });
+  res.status(200).json({ msg: 'job updated', job: updateJob });
 };
 
 //TODO DELETE JOB
@@ -73,18 +58,14 @@ export const deleteJob = async (req, res) => {
   // data
   const { id } = req.params;
 
-  // find job with id
-  const job = jobs.find((job) => job.id === id);
+  // find & delete job with id
+  const removeJob = await Job.findByIdAndDelete(id);
 
   // guard
-  if (!job) {
+  if (!removeJob) {
     return res.status(404).json({ msg: `no job found with id:${id}` });
   }
 
-  // delete
-  const newJobs = jobs.filter((job) => job.id !== id);
-  jobs = newJobs;
-
   // result
-  res.status(200).json({ msg: 'job deleted', jobs });
+  res.status(200).json({ msg: 'job deleted', job: removeJob });
 };
