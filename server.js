@@ -20,19 +20,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // ROUTES
-app.get('/', (req, res) => {
-  res.send('Hello From Server');
-});
-
-app.post('/', (req, res) => {
-  console.log(`🚀CHECK > req:`, req.body);
-  res.json({ msg: 'data received', data: req.body });
-});
-
-app.get('/api/v1/jobs', (req, res) => {
-  res.status(200).json({ jobs });
-});
-
 //TODO CREATE JOB
 app.post('/api/v1/jobs', (req, res) => {
   // data
@@ -71,6 +58,11 @@ app.get('/api/v1/jobs/:id', (req, res) => {
 
   // result
   res.status(200).json({ job });
+});
+
+// TODO GET ALL JOBS
+app.get('/api/v1/jobs', (req, res) => {
+  res.status(200).json({ jobs });
 });
 
 //TODO EDIT JOB (UPDATE JOB)
@@ -119,6 +111,17 @@ app.delete('/api/v1/jobs/:id', (req, res) => {
 
   // result
   res.status(200).json({ msg: 'job deleted', jobs });
+});
+
+// TODO NOT-FOUND MIDDLEWARE
+app.use('*', (req, res) => {
+  res.status(404).json({ msg: 'Not found' });
+});
+
+// TODO ERROR MIDDLEWARE
+app.use((err, req, res, next) => {
+  console.log(`🚀err:`, err);
+  res.status(500).json({ msg: 'something went wrong' });
 });
 
 // APP LISTENING
