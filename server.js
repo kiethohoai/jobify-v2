@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import mongoose from 'mongoose';
 import 'dotenv/config';
 import jobRoutes from './routes/jobRoutes.js';
 
@@ -28,6 +29,12 @@ app.use((err, req, res, next) => {
 });
 
 //TODO APP LISTENING
-app.listen(PORT, () => {
-  console.log(`🚀APP RUNNING ON LOCALHOST:${PORT}`);
-});
+try {
+  await mongoose.connect(process.env.MONGO_URL);
+  app.listen(PORT, () => {
+    console.log(`🚀APP RUNNING ON LOCALHOST:${PORT}`);
+  });
+} catch (error) {
+  console.log(`🚀Error:`, error);
+  process.exit(1);
+}
