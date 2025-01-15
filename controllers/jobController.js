@@ -22,15 +22,8 @@ export const getAllJobs = async (req, res) => {
 
 //TODO GET SINGLE JOB
 export const getJob = async (req, res) => {
-  const { id } = req.params;
-
   // find job with id
-  const job = await Job.findById(id);
-
-  // guard
-  if (!job) {
-    throw new NotFoundError(`no job found with id:${id}`);
-  }
+  const job = await Job.findById(req.params.id);
 
   // result
   res.status(StatusCodes.OK).json({ job });
@@ -38,18 +31,10 @@ export const getJob = async (req, res) => {
 
 //TODO UPDATE JOB (EDIT JOB)
 export const updateJob = async (req, res) => {
-  // data
-  const { id } = req.params;
-
   // find job with id
-  const updateJob = await Job.findByIdAndUpdate(id, req.body, {
+  const updateJob = await Job.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
-
-  // guard
-  if (!updateJob) {
-    throw new NotFoundError(`no job found with id:${id}`);
-  }
 
   // result
   res.status(StatusCodes.OK).json({ msg: 'job updated', job: updateJob });
@@ -57,16 +42,8 @@ export const updateJob = async (req, res) => {
 
 //TODO DELETE JOB
 export const deleteJob = async (req, res) => {
-  // data
-  const { id } = req.params;
-
   // find & delete job with id
-  const removeJob = await Job.findByIdAndDelete(id);
-
-  // guard
-  if (!removeJob) {
-    throw new NotFoundError(`no job found with id:${id}`);
-  }
+  const removeJob = await Job.findByIdAndDelete(req.params.id);
 
   // result
   res.status(StatusCodes.OK).json({ msg: 'job deleted', job: removeJob });
