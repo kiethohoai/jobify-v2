@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import jobRoutes from './routes/jobRoutes.js';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
-import { validateTest } from './middleware/validationMiddleware.js';
 
 //TODO APP
 const app = express();
@@ -18,11 +17,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 //TODO ROUTES
-app.post('/api/v1/test', validateTest, (req, res) => {
-  const { name } = req.body;
-  res.json({ msg: `hello ${name}` });
-});
-
 app.use('/api/v1/jobs', jobRoutes);
 
 // TODO NOT-FOUND MIDDLEWARE
