@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import jobRoutes from './routes/jobRoutes.js';
-import userRoutes from './routes/userRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 
 //TODO APP
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'development') {
 
 //TODO ROUTES
 app.use('/api/v1/jobs', jobRoutes);
-app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 // TODO NOT-FOUND MIDDLEWARE
 app.use('*', (req, res) => {
