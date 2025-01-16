@@ -7,20 +7,21 @@ import jobRoutes from './routes/jobRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 import cookieParser from 'cookie-parser';
+import { authenticateUser } from './middleware/authMiddleware.js';
 
 //TODO APP
 const app = express();
 const PORT = process.env.PORT || 5100;
 
 //TODO MIDDLEWARE
-app.use(express.json()); //accept json
 app.use(cookieParser());
+app.use(express.json()); //accept json
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); //request logger
 }
 
 //TODO ROUTES
-app.use('/api/v1/jobs', jobRoutes);
+app.use('/api/v1/jobs', authenticateUser, jobRoutes);
 app.use('/api/v1/auth', authRoutes);
 
 // TODO NOT-FOUND MIDDLEWARE
