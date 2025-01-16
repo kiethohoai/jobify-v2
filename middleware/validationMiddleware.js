@@ -1,5 +1,5 @@
 import { body, validationResult, param } from 'express-validator';
-import { BadRequestError, NotFoundError } from '../errors/customErrors.js';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../errors/customErrors.js';
 import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js';
 import mongoose from 'mongoose';
 import Job from '../models/JobModel.js';
@@ -40,13 +40,27 @@ export const validateJobInput = withValidationErrors([
 ]);
 
 export const validateIdParam = withValidationErrors([
-  param('id').custom(async (value) => {
+  param('id').custom(async (value, { req }) => {
     const isValidId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidId) throw new BadRequestError('Invalid MongoDB ID');
 
     const job = await Job.findById(value);
     if (!job) {
       throw new NotFoundError(`No job found with id:${id}`);
+    }
+
+    // TODO CHECK OWNER
+    console.log(`🚀CHECK > req.user.userId:`, req.user.userId);
+    console.log(`🚀CHECK > job.createdBy:`, job.createdBy.toString());
+
+    const isAdmin = req.user.role === 'admin';
+    const isOwner = req.user.userId === job.createdBy.toString();
+    console.log(`🚀CHECK > isOwner:`, isOwner);
+    console.log(`🚀CHECK > isAdmin:`, isAdmin);
+
+    // check owner
+    if (!isAdmin && !isOwner) {
+      throw new UnauthorizedError('not authorized to access this route!');
     }
   }),
 ]);
