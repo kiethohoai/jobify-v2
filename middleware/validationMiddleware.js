@@ -1,5 +1,9 @@
 import { body, validationResult, param } from 'express-validator';
-import { BadRequestError, NotFoundError, UnauthorizedError } from '../errors/customErrors.js';
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from '../errors/customErrors.js';
 import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js';
 import mongoose from 'mongoose';
 import Job from '../models/JobModel.js';
@@ -96,4 +100,20 @@ export const validateLoginInput = withValidationErrors([
     .withMessage('Password is required')
     .isLength({ min: 6 })
     .withMessage('Password must be at least 6 charaters long'),
+]);
+
+export const validateUpdateUserInput = withValidationErrors([
+  body('name').notEmpty().withMessage('Name is required'),
+  body('email')
+    .notEmpty()
+    .withMessage('Email is required')
+    .isEmail()
+    .withMessage('Invalid email format')
+    .custom(async (val, { req }) => {
+      const user = await User.findOne({ email: val });
+      if (user && user._id.toString() !== req.user.userId)
+        throw new BadRequestError('Email already exists');
+    }),
+  body('lastName').notEmpty().withMessage('Last Name is required'),
+  body('location').notEmpty().withMessage('Location is required'),
 ]);
