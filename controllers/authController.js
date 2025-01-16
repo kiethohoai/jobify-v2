@@ -2,6 +2,7 @@ import User from '../models/UserModel.js';
 import { StatusCodes } from 'http-status-codes';
 import { comparePassword, hashPassword } from '../utils/passwordUtils.js';
 import { UnauthenticatedError } from '../errors/customErrors.js';
+import { createJWT } from '../utils/tokenUtils.js';
 
 export const register = async (req, res) => {
   // auto add role for user
@@ -35,5 +36,8 @@ export const login = async (req, res) => {
   // Check valid password
   if (!isPasswordCorrect) throw new UnauthenticatedError('Invalid credentials');
 
-  res.status(200).json({ msg: 'Login Successfully' });
+  // create JWT
+  const token = createJWT({ userId: user._id, role: user.role });
+
+  res.json({ token });
 };
