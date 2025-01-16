@@ -1,6 +1,7 @@
 import User from '../models/UserModel.js';
 import { StatusCodes } from 'http-status-codes';
-import { hashPassword } from '../utils/passwordUtils.js';
+import { comparePassword, hashPassword } from '../utils/passwordUtils.js';
+import { UnauthenticatedError } from '../errors/customErrors.js';
 
 export const register = async (req, res) => {
   // auto add role for user
@@ -19,5 +20,20 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  res.send('login');
+  // find user from DB
+  const user = await User.findOne({ email: req.body.email });
+
+  // check user exists
+  if (!user) throw new UnauthenticatedError('Invalid credentials');
+
+  // compare password (input & database )
+  const isPasswordCorrect = await comparePassword(
+    req.body.password,
+    user.password,
+  );
+
+  // Check valid password
+  if (!isPasswordCorrect) throw new UnauthenticatedError('Invalid credentials');
+
+  res.status(200).json({ msg: 'Login Successfully' });
 };
