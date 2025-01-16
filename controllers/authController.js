@@ -8,10 +8,6 @@ export const register = async (req, res) => {
   req.body.role = isFirstAccount ? 'admin' : 'user';
 
   // hash password
-  // const salt = await bcrypt.genSalt(10);
-  // const hashedPassword = await bcrypt.hash(req.body.password, salt);
-  // req.body.password = hashedPassword;
-
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
 
