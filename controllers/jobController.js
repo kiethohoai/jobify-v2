@@ -3,11 +3,11 @@ import { StatusCodes } from 'http-status-codes';
 
 //TODO CREATE JOB
 export const createJob = async (req, res) => {
-  // data
-  const { company, position } = req.body;
+  // add createdBy property to req.body
+  req.body.createdBy = req.user.userId;
 
   // create
-  const job = await Job.create({ company, position });
+  const job = await Job.create(req.body);
 
   // result
   res.status(StatusCodes.CREATED).json({ job });
@@ -15,7 +15,7 @@ export const createJob = async (req, res) => {
 
 // TODO GET ALL JOBS
 export const getAllJobs = async (req, res) => {
-  const jobs = await Job.find();
+  const jobs = await Job.find({ createdBy: req.user.userId });
   res.status(StatusCodes.OK).json({ jobs });
 };
 
