@@ -15,6 +15,7 @@ import {
 import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
 import { loader as appLoader } from './pages/DashboardLayout';
+import { action as addJobAction } from './pages/AddJob';
 
 // DARK THEME
 // eslint-disable-next-line
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <AddJob />,
+            action: addJobAction,
           },
           {
             path: 'stats',

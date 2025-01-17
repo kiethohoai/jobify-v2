@@ -1,10 +1,27 @@
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { FormRow, FormRowSelect } from '../components';
-import { useOutletContext } from 'react-router-dom';
+import { redirect, useOutletContext } from 'react-router-dom';
 import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
-import { Form, useNavigation, redirect } from 'react-router-dom';
+import { Form, useNavigation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
+
+// eslint-disable-next-line
+export const action = async ({ request }) => {
+  // get formdata
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+
+  // call api to create job
+  try {
+    await customFetch.post('/jobs', data);
+    toast.success('Job created successfully');
+    return redirect('all-jobs');
+  } catch (error) {
+    toast.error('Creating job failed');
+    return error;
+  }
+};
 
 const AddJob = () => {
   const { user } = useOutletContext();
@@ -17,8 +34,14 @@ const AddJob = () => {
         <h4 className="form-title">add job</h4>
 
         <div className="form-center">
-          <FormRow type="text" name="position" />
-          <FormRow type="text" name="company" />
+          <FormRow
+            type="text"
+            name="position"
+            defaultValue="Fullstacks Developer"
+          />
+
+          <FormRow type="text" name="company" defaultValue="Google" />
+
           <FormRow
             type="text"
             name="jobLocation"
