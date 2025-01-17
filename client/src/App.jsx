@@ -14,6 +14,7 @@ import {
 } from './pages';
 import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
+import { loader as appLoader } from './pages/DashboardLayout';
 
 // DARK THEME
 // eslint-disable-next-line
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
       {
         path: '/dashboard',
         element: <DashboardLayout />,
+        loader: appLoader,
         children: [
           {
             index: true,

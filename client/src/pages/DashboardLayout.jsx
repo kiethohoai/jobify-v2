@@ -1,18 +1,29 @@
 import Wrapper from '../assets/wrappers/Dashboard.js';
-import { Outlet } from 'react-router-dom';
+import { Outlet, redirect, useLoaderData } from 'react-router-dom';
 import { SmallSidebar, BigSidebar, Navbar } from '../components';
 import { useState } from 'react';
 import { createContext } from 'react';
 import { useContext } from 'react';
 import { checkDefaultTheme } from '../App.jsx';
+import customFetch from '../utils/customFetch.js';
+
+export const loader = async () => {
+  try {
+    const { data } = await customFetch.get('/users/current-user');
+    return data;
+  } catch (error) {
+    console.log(`🚀CHECK > error:`, error?.response?.data?.msg);
+    return redirect('/');
+  }
+};
 
 // DashboardContext
 const DashboardContext = createContext();
 
 // DashboardLayout
 const DashboardLayout = () => {
-  // user temp
-  const user = { name: 'john' };
+  // user data
+  const { user } = useLoaderData();
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(() => checkDefaultTheme());
 
@@ -49,7 +60,7 @@ const DashboardLayout = () => {
           <div>
             <Navbar />
             <div className="dashboard-page">
-              <Outlet />
+              <Outlet context={{ user }} />
             </div>
           </div>
         </main>
@@ -62,7 +73,9 @@ const DashboardLayout = () => {
 const useDashboardContext = () => {
   const context = useContext(DashboardContext);
   if (context === undefined)
-    throw new Error('Can not use Dashboard Context outside the DashboardContext Provider');
+    throw new Error(
+      'Can not use Dashboard Context outside the DashboardContext Provider',
+    );
 
   return context;
 };
