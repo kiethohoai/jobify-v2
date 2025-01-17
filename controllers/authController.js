@@ -38,7 +38,6 @@ export const login = async (req, res) => {
 
   // create JWT
   const token = createJWT({ userId: user._id, role: user.role });
-  console.log(`🚀CHECK > token:`, token);
 
   // cookie
   res.cookie('token', token, {

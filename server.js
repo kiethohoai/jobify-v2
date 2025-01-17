@@ -26,6 +26,10 @@ app.use('/api/v1/jobs', authenticateUser, jobRoutes);
 app.use('/api/v1/users', authenticateUser, userRoutes);
 app.use('/api/v1/auth', authRoutes);
 
+app.get('/api/v1/test', (req, res) => {
+  res.json({ msg: 'test' });
+});
+
 // TODO NOT-FOUND MIDDLEWARE
 app.use('*', (req, res) => {
   res.status(404).json({ msg: 'Not found' });
