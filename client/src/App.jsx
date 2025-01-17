@@ -12,6 +12,7 @@ import {
   Admin,
   Stats,
 } from './pages';
+import { action as registerAction } from './pages/Register';
 
 // DARK THEME
 // eslint-disable-next-line
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register />,
+        action: registerAction,
       },
       {
         path: '/login',
