@@ -6,13 +6,16 @@
   "type": "module",
   "scripts": {
     "setup-project": "npm install && cd client && npm install",
-    "start": "nodemon"
+    "server": "nodemon server",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently -kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^9.1.2",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
