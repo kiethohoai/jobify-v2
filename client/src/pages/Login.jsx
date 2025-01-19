@@ -52,7 +52,7 @@ const Login = () => {
         <SubmitBtn />
 
         <button type="button" className="btn btn-block" onClick={loginDemoUser}>
-          explore the app
+          explore the app (demo user)
         </button>
 
         <p>

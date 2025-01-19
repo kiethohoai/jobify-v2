@@ -8,6 +8,7 @@
     "setup-project": "npm install && cd client && npm install",
     "server": "nodemon server",
     "client": "cd client && npm run dev",
+    "db": "node populate.js",
     "dev": "concurrently -kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "keywords": [],
