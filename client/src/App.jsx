@@ -21,6 +21,7 @@ import { loader as allJobsLoader } from './pages/AllJobs';
 import { action as editJobAction, loader as editJobLoader } from './pages/EditJob';
 import { action as deleteJobAction } from './pages/DeleteJob';
 import { loader as adminLoader } from './pages/Admin';
+import { action as profileAction } from './pages/Profile';
 
 // DARK THEME
 // eslint-disable-next-line
@@ -73,6 +74,7 @@ const router = createBrowserRouter([
           {
             path: 'profile',
             element: <Profile />,
+            action: profileAction,
           },
           {
             path: 'admin',

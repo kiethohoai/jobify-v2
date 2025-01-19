@@ -9,6 +9,19 @@ import userRoutes from './routes/userRoutes.js';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 import cookieParser from 'cookie-parser';
 import { authenticateUser } from './middleware/authMiddleware.js';
+import { v2 as cloudinary } from 'cloudinary';
+
+// cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
+
+// public folder
+import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 //TODO APP
 const app = express();
@@ -17,6 +30,11 @@ const PORT = process.env.PORT || 5100;
 //TODO MIDDLEWARE
 app.use(cookieParser());
 app.use(express.json()); //accept json
+
+// setup public folder
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, './public')));
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); //request logger
 }
