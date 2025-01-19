@@ -11,12 +11,14 @@ import {
   Profile,
   Admin,
   Stats,
+  EditJob,
 } from './pages';
 import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
 import { loader as appLoader } from './pages/DashboardLayout';
 import { action as addJobAction } from './pages/AddJob';
 import { loader as allJobsLoader } from './pages/AllJobs';
+import { action as editJobAction, loader as editJobLoader } from './pages/EditJob';
 
 // DARK THEME
 // eslint-disable-next-line
@@ -73,6 +75,12 @@ const router = createBrowserRouter([
           {
             path: 'admin',
             element: <Admin />,
+          },
+          {
+            path: 'edit-job/:id',
+            element: <EditJob />,
+            action: editJobAction,
+            loader: editJobLoader,
           },
         ],
       },

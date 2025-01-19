@@ -21,7 +21,6 @@ const AllJobsContext = createContext();
 // component
 const AllJobs = () => {
   const { data } = useLoaderData();
-  console.log(`🚀CHECK > data:`, data);
 
   return (
     <AllJobsContext.Provider value={{ data }}>
