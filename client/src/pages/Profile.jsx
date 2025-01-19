@@ -1,8 +1,8 @@
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import customFetch from '../utils/customFetch';
-import { useNavigation, Form } from 'react-router-dom';
+import { Form } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
-import { FormRow } from '../components';
+import { FormRow, SubmitBtn } from '../components';
 import { toast } from 'react-toastify';
 
 // eslint-disable-next-line
@@ -32,9 +32,6 @@ export const action = async ({ request }) => {
 const Profile = () => {
   const { user } = useOutletContext();
   const { name, lastName, email, location } = user;
-
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
 
   return (
     <Wrapper>
@@ -82,14 +79,8 @@ const Profile = () => {
             defaultValue={location}
           />
 
-          {/* submit button */}
-          <button
-            className="btn btn-block form-btn"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'submitting...' : 'submit'}
-          </button>
+          {/* submit */}
+          <SubmitBtn formBtn />
         </div>
       </Form>
     </Wrapper>

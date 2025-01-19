@@ -1,15 +1,10 @@
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
-import { Logo, FormRow } from '../components';
-import {
-  Form,
-  Link,
-  redirect,
-  useActionData,
-  useNavigation,
-} from 'react-router-dom';
+import { Logo, FormRow, SubmitBtn } from '../components';
+import { Form, Link, redirect } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
 
+// eslint-disable-next-line
 export const action = async ({ request }) => {
   // get data
   const formData = await request.formData();
@@ -27,9 +22,6 @@ export const action = async ({ request }) => {
 };
 
 const Login = () => {
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
-
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -39,9 +31,9 @@ const Login = () => {
         <FormRow type="email" name="email" defaultValue="john@gmail.com" />
         <FormRow type="password" name="password" defaultValue="123456" />
 
-        <button type="submit" className="btn btn-block" disabled={isSubmitting}>
-          {isSubmitting ? 'submitting...' : 'submit'}
-        </button>
+        {/* submit */}
+        <SubmitBtn />
+
         <button type="button" className="btn btn-block">
           explore the app
         </button>

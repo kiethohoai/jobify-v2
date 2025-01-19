@@ -1,7 +1,7 @@
 import Wrapper from '../assets/wrappers/DashboardFormPage';
-import { FormRow, FormRowSelect } from '../components';
+import { FormRow, FormRowSelect, SubmitBtn } from '../components';
 import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
-import { Form, useNavigation, redirect, useLoaderData } from 'react-router-dom';
+import { Form, redirect, useLoaderData } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 
@@ -34,8 +34,6 @@ export const action = async ({ request, params }) => {
 
 const EditJob = () => {
   const { job } = useLoaderData();
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
 
   return (
     <Wrapper>
@@ -43,8 +41,18 @@ const EditJob = () => {
         <h4 className="form-title">edit job</h4>
 
         <div className="form-center">
-          <FormRow type="text" name="position" labelText="position" defaultValue={job.position} />
-          <FormRow type="text" name="company" labelText="company" defaultValue={job.company} />
+          <FormRow
+            type="text"
+            name="position"
+            labelText="position"
+            defaultValue={job.position}
+          />
+          <FormRow
+            type="text"
+            name="company"
+            labelText="company"
+            defaultValue={job.company}
+          />
 
           <FormRow
             type="text"
@@ -67,9 +75,8 @@ const EditJob = () => {
             defaultValue={JOB_STATUS.PENDING}
           />
 
-          <button className="btn btn-block form-btn" type="submit">
-            {isSubmitting ? 'Submitting...' : 'Submit'}
-          </button>
+          {/* submit */}
+          <SubmitBtn formBtn />
         </div>
       </Form>
     </Wrapper>
