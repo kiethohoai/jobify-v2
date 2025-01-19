@@ -19,6 +19,7 @@ import { loader as appLoader } from './pages/DashboardLayout';
 import { action as addJobAction } from './pages/AddJob';
 import { loader as allJobsLoader } from './pages/AllJobs';
 import { action as editJobAction, loader as editJobLoader } from './pages/EditJob';
+import { action as deleteJobAction } from './pages/DeleteJob';
 
 // DARK THEME
 // eslint-disable-next-line
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
             element: <EditJob />,
             action: editJobAction,
             loader: editJobLoader,
+          },
+          {
+            path: 'delete-job/:id',
+            action: deleteJobAction,
           },
         ],
       },
