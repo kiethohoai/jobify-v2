@@ -3,21 +3,25 @@ import { NavLink } from 'react-router-dom';
 import { useDashboardContext } from '../pages/DashboardLayout';
 
 const NavLinks = ({ isBigSidebar }) => {
-  const { toggleSidebar } = useDashboardContext();
+  const { toggleSidebar, user } = useDashboardContext();
 
   return (
     <div className="nav-links">
-      {links.map(({ text, path, icon }) => (
-        <NavLink
-          to={path}
-          key={text}
-          className="nav-link"
-          onClick={isBigSidebar ? null : toggleSidebar}
-        >
-          <span className="icon">{icon}</span>
-          {text}
-        </NavLink>
-      ))}
+      {links.map(({ text, path, icon }) => {
+        const { role } = user;
+        if (role !== 'admin' && path === 'admin') return;
+        return (
+          <NavLink
+            to={path}
+            key={text}
+            className="nav-link"
+            onClick={isBigSidebar ? null : toggleSidebar}
+          >
+            <span className="icon">{icon}</span>
+            {text}
+          </NavLink>
+        );
+      })}
     </div>
   );
 };
