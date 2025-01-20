@@ -18,10 +18,14 @@ import { action as loginAction } from './pages/Login';
 import { loader as appLoader } from './pages/DashboardLayout';
 import { action as addJobAction } from './pages/AddJob';
 import { loader as allJobsLoader } from './pages/AllJobs';
-import { action as editJobAction, loader as editJobLoader } from './pages/EditJob';
+import {
+  action as editJobAction,
+  loader as editJobLoader,
+} from './pages/EditJob';
 import { action as deleteJobAction } from './pages/DeleteJob';
 import { loader as adminLoader } from './pages/Admin';
 import { action as profileAction } from './pages/Profile';
+import { loader as statsLoader } from './pages/Stats';
 
 // DARK THEME
 // eslint-disable-next-line
@@ -65,6 +69,7 @@ const router = createBrowserRouter([
           {
             path: 'stats',
             element: <Stats />,
+            loader: statsLoader,
           },
           {
             path: 'all-jobs',
