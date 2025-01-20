@@ -17,8 +17,54 @@ export const createJob = async (req, res) => {
 
 // TODO GET ALL JOBS
 export const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({ createdBy: req.user.userId });
-  res.status(StatusCodes.OK).json({ jobs });
+  // data form query
+  const { search, jobStatus, jobType, sort } = req.query;
+
+  // query obj
+  const queryObj = {
+    createdBy: req.user.userId,
+  };
+
+  // search query
+  if (search) {
+    queryObj.$or = [
+      { position: { $regex: search, $options: 'i' } },
+      { company: { $regex: search, $options: 'i' } },
+    ];
+  }
+
+  // jobStatus query
+  if (jobStatus && jobStatus !== 'all') {
+    queryObj.jobStatus = jobStatus;
+  }
+
+  // jobType query
+  if (jobType && jobType !== 'all') {
+    queryObj.jobType = jobType;
+  }
+
+  // sort query
+  const sortOptions = {
+    newest: '-createdAt',
+    oldest: 'createdAt',
+    'a-z': 'position',
+    'z-a': '-position',
+  };
+  const sortKey = sortOptions[sort] || sortOptions.newest;
+
+  // pagination
+  const page = +req.query.page || 1;
+  const limit = +req.query.limit || 2;
+  const skip = (page - 1) * limit;
+  const totalJobs = await Job.countDocuments(queryObj);
+  const numOfPages = Math.ceil(totalJobs / limit);
+
+  // query to db
+  const jobs = await Job.find(queryObj).sort(sortKey).skip(skip).limit(limit);
+
+  res
+    .status(StatusCodes.OK)
+    .json({ totalJobs, currentPage: page, numOfPages, jobs });
 };
 
 //TODO GET SINGLE JOB
