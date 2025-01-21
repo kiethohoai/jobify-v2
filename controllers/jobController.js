@@ -54,7 +54,7 @@ export const getAllJobs = async (req, res) => {
 
   // pagination
   const page = +req.query.page || 1;
-  const limit = +req.query.limit || 2;
+  const limit = +req.query.limit || 10;
   const skip = (page - 1) * limit;
   const totalJobs = await Job.countDocuments(queryObj);
   const numOfPages = Math.ceil(totalJobs / limit);
